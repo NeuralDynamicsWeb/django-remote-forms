@@ -79,7 +79,12 @@ class RemoteMultipleHiddenInput(RemoteHiddenInput):
     def as_dict(self):
         widget_dict = super(RemoteMultipleHiddenInput, self).as_dict()
 
-        widget_dict['choices'] = self.widget.choices
+        widget_dict['choices'] = []
+        for key, value in self.widget.choices:
+            widget_dict['choices'].append({
+                'value': str(key),
+                'display': str(value)
+            })
 
         return widget_dict
 
@@ -169,8 +174,8 @@ class RemoteSelect(RemoteWidget):
         widget_dict['choices'] = []
         for key, value in self.widget.choices:
             widget_dict['choices'].append({
-                'value': key,
-                'display': value
+                'value': str(key),
+                'display': str(value)
             })
 
         widget_dict['input_type'] = 'select'
@@ -226,13 +231,13 @@ class RemoteRadioSelect(RemoteSelect):
         widget_dict = super(RemoteRadioSelect, self).as_dict()
 
         widget_dict['choices'] = []
+        widget_dict['choices'] = []
         for key, value in self.widget.choices:
             widget_dict['choices'].append({
                 'name': self.field_name or '',
-                'value': key,
-                'display': value
+                'value': str(key),
+                'display': str(value)
             })
-
         widget_dict['input_type'] = 'radio'
 
         return widget_dict
