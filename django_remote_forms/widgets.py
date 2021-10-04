@@ -8,6 +8,9 @@ class RemoteWidget(object):
     def __init__(self, widget, field_name=None):
         self.field_name = field_name
         self.widget = widget
+    
+    def _is_digit(self, value: str) -> bool:
+        return int(value) if value.isdigit() else value
 
     def as_dict(self):
         widget_dict = OrderedDict()
@@ -82,7 +85,7 @@ class RemoteMultipleHiddenInput(RemoteHiddenInput):
         widget_dict['choices'] = []
         for key, value in self.widget.choices:
             widget_dict['choices'].append({
-                'value': str(key),
+                'value': self._is_digit(str(key)),
                 'display': str(value)
             })
 
@@ -174,7 +177,7 @@ class RemoteSelect(RemoteWidget):
         widget_dict['choices'] = []
         for key, value in self.widget.choices:
             widget_dict['choices'].append({
-                'value': str(key),
+                'value': self._is_digit(str(key)),
                 'display': str(value)
             })
 
@@ -235,7 +238,7 @@ class RemoteRadioSelect(RemoteSelect):
         for key, value in self.widget.choices:
             widget_dict['choices'].append({
                 'name': self.field_name or '',
-                'value': str(key),
+                'value': self._is_digit(str(key)),
                 'display': str(value)
             })
         widget_dict['input_type'] = 'radio'

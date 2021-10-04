@@ -24,6 +24,9 @@ class RemoteField(object):
         self.field = field
         self.form_initial_data = form_initial_data
 
+    def _is_digit(self, value: str) -> bool:
+        return int(value) if value.isdigit() else value
+
     def as_dict(self):
         field_dict = OrderedDict()
         field_dict['title'] = self.field.__class__.__name__
@@ -179,7 +182,7 @@ class RemoteChoiceField(RemoteField):
         field_dict['choices'] = []
         for key, value in self.field.choices:
             field_dict['choices'].append({
-                'value': str(key),
+                'value': self._is_digit(str(key)),
                 'display': str(value)
             })
 
